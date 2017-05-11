@@ -1,6 +1,7 @@
 ﻿using Concert.Models;
 using Concert.ViewModels;
 using Microsoft.AspNet.Identity;
+using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -28,26 +29,46 @@ namespace Concert.Controllers
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(GigFormViewModel viewModel)
+        public ActionResult Create(GigFormViewModel formViewModel)
         {
             if (!ModelState.IsValid)
             {
-                viewModel.Genres = _context.Genres.ToList();
-                return View("Create", viewModel);
+                formViewModel.Genres = _context.Genres.ToList();
+                return View("Create", formViewModel);
             }
 
 
             var gig = new Gig
             {
                 ArtistId = User.Identity.GetUserId(),
-                DateTime = viewModel.GetDateTime(),
-                GenreId = viewModel.Genre,
-                Venue = viewModel.Venue
+                DateTime = formViewModel.GetDateTime(),
+                GenreId = formViewModel.Genre,
+                Venue = formViewModel.Venue
             };
             _context.Gigs.Add(gig);
             _context.SaveChanges();
 
             return RedirectToAction("Index", "Home");
+        }
+
+        public ActionResult Attending()
+        {
+            var userId = User.Identity.GetUserId();
+            var gigs = _context.Attendances
+                .Where(a => a.AttendeeId == userId)
+                .Select(a => a.Gig)
+                .Include(g => g.Artist)
+                .Include(g => g.Genre)
+                .ToList();
+
+            var viewModel = new GigsViewModel()
+            {
+                UpcomingGigs = gigs,
+                ShowActions = User.Identity.IsAuthenticated,
+                Heading = "Gigs I/m Attending"
+            };
+
+            return View("Gigs", viewModel);
         }
     }
 }
