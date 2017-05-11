@@ -1,0 +1,42 @@
+﻿@model Concert.ViewModels.GigFormViewModel
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<img src="~/Images/links.png" class="img-responsive center-block" />
+<div class="container">
+    <form action="@Url.Action("Create", "Gigs")" method="POST">
+        <p class="alert alert-warning alert-dismissable">All fields are <strong>required</strong></p>
+        @Html.AntiForgeryToken()
+        <div class="form-group">
+            <input class="form-control" type="text" name="Venue" placeholder="Venue" autofocus="autofocus">
+            @Html.ValidationMessageFor(x => x.Venue)
+        </div>
+        <div class="form-group">
+            <input class="form-control" type="text" name="Date" placeholder="Date">
+            @Html.ValidationMessageFor(x => x.Date)
+        </div>
+        <div class="form-group">
+            <input class="form-control" type="text" name="Time" placeholder="Time">
+            @Html.ValidationMessageFor(x => x.Time)
+        </div>
+        <div class="form-group">
+            <select class="form-control">
+                <option selected="selected" disabled="disabled">Select genre</option>
+                @foreach (var type in Model.Genres)
+                {
+                    <option value="@type.Id">
+                        @type.Name
+                    </option>
+                }
+            </select>
+            @Html.ValidationMessageFor(x => x.Genre)
+        </div>
+        <button type="submit" class="btn btn-primary">
+            <i class="glyphicon glyphicon-floppy-save"></i>&nbsp;Save
+        </button>
+    </form>
+</div>
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+}

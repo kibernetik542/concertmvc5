@@ -1,0 +1,70 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+</head>
+<body>
+    <div class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+              
+
+                <a href="@Url.Action("Index", "Home")" class="navbar-brand text-success">
+                  <i class="glyphicon glyphicon-home text-success"></i>&nbsp;Home
+                </a>
+             
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            Actions
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="@Url.Action("About", "Home")">
+                                    <i class="glyphicon glyphicon-info-sign text-primary"></i>&nbsp;About
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Contact", "Home")">
+                                    <i class="glyphicon glyphicon-phone text-primary"></i>&nbsp;Contact
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Create", "Gigs")">
+                                    <i class="glyphicon glyphicon-plus text-primary"></i>&nbsp;Add a Gig
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                   
+                </ul>
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
