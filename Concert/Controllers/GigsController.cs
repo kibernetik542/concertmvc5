@@ -1,6 +1,7 @@
 ﻿using Concert.Models;
 using Concert.ViewModels;
 using Microsoft.AspNet.Identity;
+using System;
 using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
@@ -17,6 +18,20 @@ namespace Concert.Controllers
         }
 
         [Authorize]
+        public ActionResult Mine()
+        {
+            var userId = User.Identity.GetUserId();
+            var gigs = _context.Gigs
+                .Where(g => g.ArtistId == userId
+                 && g.DateTime > DateTime.Now)
+                 .Include(g => g.Genre)
+                 .ToList();
+
+            return View(gigs);
+        }
+
+
+        [Authorize]
         public ActionResult Create()
         {
             var viewModel = new GigFormViewModel
@@ -29,26 +44,26 @@ namespace Concert.Controllers
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(GigFormViewModel formViewModel)
+        public ActionResult Create(GigFormViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
-                formViewModel.Genres = _context.Genres.ToList();
-                return View("Create", formViewModel);
+                viewModel.Genres = _context.Genres.ToList();
+                return View("Create", viewModel);
             }
 
 
             var gig = new Gig
             {
                 ArtistId = User.Identity.GetUserId(),
-                DateTime = formViewModel.GetDateTime(),
-                GenreId = formViewModel.Genre,
-                Venue = formViewModel.Venue
+                DateTime = viewModel.GetDateTime(),
+                GenreId = viewModel.Genre,
+                Venue = viewModel.Venue
             };
             _context.Gigs.Add(gig);
             _context.SaveChanges();
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Mine", "Gigs");
         }
 
         public ActionResult Attending()
@@ -72,4 +87,3 @@ namespace Concert.Controllers
         }
     }
 }
-//@@* Html.DropDownListFor(x => x.Genre, new SelectList(Model.Genres, "Id", "Name","",new { @class = "form-control"}))*@

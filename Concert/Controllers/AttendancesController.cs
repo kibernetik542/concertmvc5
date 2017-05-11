@@ -21,16 +21,15 @@ namespace Concert.Controllers
         {
             var userId = User.Identity.GetUserId();
 
-            if (_context.Attendances
-                .Any(a => a.AttendeeId == userId && a.GigId == dto.GigId))
-                return BadRequest("Attendance already exists");
+            if (_context.Attendances.Any(a => a.AttendeeId == userId && a.GigId == dto.GigId))
+                return BadRequest("The attendance already exists.");
 
-            var attedance = new Attendance
+            var attendance = new Attendance
             {
                 GigId = dto.GigId,
                 AttendeeId = userId
             };
-            _context.Attendances.Add(attedance);
+            _context.Attendances.Add(attendance);
             _context.SaveChanges();
 
             return Ok();
