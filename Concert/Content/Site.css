@@ -29,6 +29,17 @@ span.field-validation-error {
     font-weight: bold;
 }
 
+.notifications {
+    position: relative;
+}
+
+.notifications .badge{
+    position: absolute;
+    top: 8px;
+    right: 0;
+    background: rgb(161, 206, 227);
+}
+
 .gigs {
     list-style: none;
 }
