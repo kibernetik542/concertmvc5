@@ -1,7 +1,8 @@
-﻿using Microsoft.Owin;
+﻿using Concert;
+using Microsoft.Owin;
 using Owin;
 
-[assembly: OwinStartupAttribute(typeof(Concert.Startup))]
+[assembly: OwinStartupAttribute(typeof(Startup))]
 namespace Concert
 {
     public partial class Startup
