@@ -78,3 +78,12 @@ span.field-validation-error {
      font-size: 15px;
     color: blue;
 }
+
+.gigs> li .actions {
+    font-size: 15px;
+    display: none;
+}
+
+.gigs> li:hover .actions {
+    display: block;
+}

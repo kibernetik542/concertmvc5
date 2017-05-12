@@ -24,5 +24,6 @@ namespace Concert.Models
 
         [Required]
         public byte GenreId { get; set; }
+
     }
 }
