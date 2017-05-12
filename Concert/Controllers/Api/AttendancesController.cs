@@ -1,10 +1,10 @@
-﻿using Concert.Dtos;
-using Concert.Models;
-using Microsoft.AspNet.Identity;
 using System.Linq;
 using System.Web.Http;
+using Concert.Dtos;
+using Concert.Models;
+using Microsoft.AspNet.Identity;
 
-namespace Concert.Controllers
+namespace Concert.Controllers.Api
 {
     [Authorize]
     public class AttendancesController : ApiController
