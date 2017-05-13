@@ -35,5 +35,10 @@ namespace Concert.Models
             User = user;
             Notification = notification;
         }
+
+        public void Read()
+        {
+            IsRead = true;
+        }
     }
 }
